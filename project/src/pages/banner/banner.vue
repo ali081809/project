@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-button type="primary" @click="add">添加</el-button>
-    <v-list></v-list>
-    <v-add :info="info"></v-add>
+    <v-list @edit="edit"></v-list>
+    <v-add :info="info" ref="add"></v-add>
   </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       info: {
-        show: true,
+        show: false,
         title: "轮播图添加",
         isAdd: true
       }
@@ -24,10 +24,17 @@ export default {
   },
   methods: {
        add(){
-            this.info.isshow=true,
+            this.info.show=true,
             this.info.title="轮播图添加",
             this.info.isAdd=true
         },
+        // 从列表传递过来的edit方法
+        edit(id){
+            this.info.show=true,
+            this.info.title="轮播图编辑",
+            this.info.isAdd=false
+          this.$refs.add.getDetailOne(id)
+        }
   },
   mounted() {}
 };

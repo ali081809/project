@@ -344,3 +344,107 @@ export const requestMemberUpdate = (params) => {
         data: qs.stringify(params)
     })
 }
+
+// 商品添加
+export const requestgoodsadd = (params) => {
+
+    // post请求里含有文件的，文件处理
+    var form = new FormData();
+    for (var i in params) {
+        form.append(i, params[i])
+    }
+    return axios({
+        url: baseUrl + "/api/goodsadd",
+        method: "post",
+        data: form
+    })
+}
+// 商品总数
+export const requestgoodscount = () => {
+    return axios({
+        url: baseUrl + "/api/goodscount",
+        method: "get"
+    })
+}
+
+// 商品列表
+export const requestgoodslist = (params) => {
+    return axios({
+        url: baseUrl + "/api/goodslist",
+        method: "get",
+        params
+    })
+}
+// 获取商品中的一条数据
+export const requestgoodsinfo = (params) => {
+    return axios({
+        url: baseUrl + "/api/goodsinfo",
+        method: "get",
+        params
+    })
+}
+
+// 商品修改
+export const requestgoodsedit = (params) => {
+    // post请求里含有文件的，文件处理
+    var form = new FormData();
+    for (var i in params) {
+        form.append(i, params[i])
+    }
+    return axios({
+        url: baseUrl + "/api/goodsedit",
+        method: "post",
+        data: form
+    })
+}
+
+// 商品删除
+export const requestgoodsdelete = (params) => {
+    return axios({
+        url: baseUrl + "/api/goodsdelete",
+        method: "post",
+        data: qs.stringify(params)
+    })
+}
+
+// 秒杀活动添加
+export const requestseckadd = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckadd",
+        method: "post",
+        data: qs.stringify(params)
+    })
+}
+// 秒杀活动列表
+export const requestsecklist = () => {
+    return axios({
+        url: baseUrl + "/api/secklist",
+        method: "get",
+    })
+}
+// 获取秒杀活动中的一条数据
+export const requestseckinfo = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckinfo",
+        method: "get",
+        params
+    })
+}
+
+// 秒杀活动修改
+export const requestseckedit = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckedit",
+        method: "post",
+        data: qs.stringify(params)
+    })
+}
+
+// 秒杀活动删除
+export const requestseckdelete = (params) => {
+    return axios({
+        url: baseUrl + "/api/seckdelete",
+        method: "post",
+        data: qs.stringify(params)
+    })
+}

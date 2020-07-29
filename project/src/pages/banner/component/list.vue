@@ -1,9 +1,13 @@
 <template>
   <div>
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="date" label="编号" width="180"></el-table-column>
-      <el-table-column prop="name" label="轮播图标题" width="180"></el-table-column>
-      <el-table-column prop="address" label="图片"></el-table-column>
+    <el-table :data="list" border style="width: 100%">
+      <el-table-column prop="id" label="编号" width="180"></el-table-column>
+      <el-table-column prop="title" label="轮播图标题" width="180"></el-table-column>
+      <el-table-column prop label="图片">
+        <template slot-scope="scope">
+          <img :src="$imgUrl+scope.row.img" alt />
+        </template>
+      </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <el-button type="primary" v-if="scope.row.status==1">启用</el-button>
@@ -21,37 +25,53 @@
   </div>
 </template>
 <script>
+// 引入请求的地址
+import { requestbannerlist,requestbannerdelete } from "../../../util/request";
+// 引入仓库
+import { mapGetters, mapActions } from "vuex";
+// 引入弹框
+import { sucssessAlert, warningAlert } from "../../../util/alert";
 export default {
   components: {},
   data() {
-    return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
-      ]
-    };
+    return {};
   },
-  methods: {},
-  mounted() {}
+  // 轮播图列表
+  computed: {
+    ...mapGetters({
+      list: "banner/list"
+    })
+  },
+  // 获取轮播图列表方法
+  methods: {
+    ...mapActions({
+      reqBannerList: "banner/reqBannerList"
+    }),
+    // 点击编辑
+    edit(id){
+      this.$emit("edit", id)
+    },
+    // 点击删除
+    del(id){
+      requestbannerdelete({id:id}).then(res=>{
+        if (res.data.code == 200) {
+          sucssessAlert(res.data.msg);
+          // 重新请求
+          this.reqBannerList();
+        } else {
+          warningAlert(res.data.msg);
+        }
+      })
+    }
+  },
+  mounted() {
+    this.reqBannerList();
+  }
 };
 </script>
 <style scoped>
+img {
+  width: 100px;
+  height: 100px;
+}
 </style>

@@ -10,6 +10,9 @@ import adminList from "./modules/admin"
 import classifyList from "./modules/classifyList"
 import guigeList from "./modules/guige"
 import menber from "./modules/menber"
+import banner from "./modules/banner"
+import goods from "./modules/goods"
+import seckill from "./modules/seckill"
 
 
 export default new Vuex.Store({
@@ -23,6 +26,9 @@ export default new Vuex.Store({
         adminList,
         classifyList,
         guigeList,
-        menber
+        menber,
+        banner,
+        goods,
+        seckill
     }
 })

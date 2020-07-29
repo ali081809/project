@@ -113,6 +113,7 @@ export default {
         // 修改时需要按id进行修改，所以要给form表单赋值id
         this.form.id = id;
         // 将默认选择的default-checked-keys赋给属性defaultKey
+        console.log("JSON.parse(res.data.list.menus)：",res.data.list);
         this.defaultKey = JSON.parse(res.data.list.menus);
       });
     },

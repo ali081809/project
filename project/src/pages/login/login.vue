@@ -14,6 +14,9 @@
 </template>
 <script>
 import { requestAdminLogin } from "../../util/request";
+import { mapActions, mapGetters } from "vuex";
+// 引入弹框
+import { sucssessAlert, warningAlert } from "../../util/alert";
 export default {
   components: {},
   data() {
@@ -24,15 +27,21 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters({
+      userList: "user"
+    })
+  },
   methods: {
+    ...mapActions({
+      changeUser: "changeUser"
+    }),
     login() {
       requestAdminLogin(this.user).then(res => {
-        // console.log("res.list:",res.list.menus);
-        if (res.code == 200) {
+        if (res.data.code == 200) {
+          sucssessAlert("登录成功！")
+          this.changeUser(res.data.list)
           this.$router.push("/");
-          localStorage.setItem("token", res.list.token); //toekn
-          localStorage.setItem("userInfo", res.list); //用户信息
-          localStorage.setItem("menus", res.list.menus); //左侧菜单
         }
       });
     }

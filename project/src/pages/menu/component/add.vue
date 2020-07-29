@@ -64,6 +64,7 @@ export default {
       //路由集合
       urls: [
         "/menu",
+        "/admin",
         "/guige",
         "/role",
         "/classify",

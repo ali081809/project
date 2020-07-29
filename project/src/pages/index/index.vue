@@ -18,52 +18,34 @@
           </el-menu-item>
           <!-- 首页结束 -->
 
-           <!-- 系统设置 -->
-          <!-- <el-submenu index="1">
+          <!-- 系统设置 -->
+          <!-- 有目录时循环 -->
+          <el-submenu
+            v-show="hasChildren"
+            :index="item.id+''"
+            v-for="item in userList.menus"
+            :key="item.id"
+          >
             <template slot="title">
-              <i class="el-icon-s-tools"></i>
-              <span>系统设置</span>
+              <i :class="item.icon"></i>
+              <span>{{item.title}}</span>
             </template>
-            <el-menu-item-group v-for="item in menus" :key="item">
-              <el-menu-item index="/menu">菜单管理</el-menu-item>
-              <el-menu-item index="role">角色管理</el-menu-item>
-              <el-menu-item index="admin">管理员管理</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu> -->
-          <!-- 系统设置结束 -->
-
-
-           <!-- 系统设置 -->
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-s-tools"></i>
-              <span>系统设置</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/menu">菜单管理</el-menu-item>
-              <el-menu-item index="role">角色管理</el-menu-item>
-              <el-menu-item index="admin">管理员管理</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <!-- 系统设置结束 -->
-
-          <!-- 商城管理 -->
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-s-goods"></i>
-              <span>商城管理</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/classify">商品分类</el-menu-item>
-              <el-menu-item index="/guige">商品规格</el-menu-item>
-              <el-menu-item index="/goods">商品管理</el-menu-item>
-              <el-menu-item index="/member">会员管理</el-menu-item>
-              <el-menu-item index="/banner">轮播图管理</el-menu-item>
-              <el-menu-item index="/seckill">秒杀活动</el-menu-item>
-            </el-menu-item-group>
+            <el-menu-item v-for="(i) in item.children" :key="i.title" :index="i.url">{{i.title}}</el-menu-item>
           </el-submenu>
 
-          <!-- 商城管理结束 -->
+          <!-- 无目录时，菜单的遍历 -->
+          <el-menu-item
+            v-show="!hasChildren"
+            :index="i.url"
+            v-for="i in userList.menus"
+            :key="i.title"
+          >
+            <template slot="title">
+              <span>{{i.title}}</span>
+            </template>
+           
+          </el-menu-item>
+          <!-- 系统设置结束 -->
         </el-menu>
 
         <!-- 导航结束 -->
@@ -72,7 +54,7 @@
       <el-container>
         <el-header class="top">
           <div class="header-con">
-            <span>admin</span>
+            <span>{{userList.username}}</span>
             <el-button type="primary" @click="out">退出</el-button>
           </div>
         </el-header>
@@ -91,28 +73,37 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
   components: {},
   data() {
-    return {
-      menus:[]
-    };
+    return {};
+  },
+  computed: {
+    ...mapGetters({
+      userList: "user"
+    }),
+    // 判断是否有目录
+    hasChildren() {
+      return this.userList.menus[0].children ? true : false;
+    }
   },
   methods: {
+    ...mapActions({
+      changeUser: "changeUser"
+    }),
     out() {
+      this.changeUser(null);
       this.$router.push("/login");
     }
   },
   mounted() {
-
-  //  this.menus= localStorage.getItem('menus');
-    // console.log("index-menus:",menus);
-    
+    //  console.log(this.userList)
   }
 };
 </script>
 <style scoped>
-.component{
+.component {
   padding-top: 20px;
 }
 .page {
